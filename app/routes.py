@@ -1,8 +1,8 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Member
 from werkzeug.urls import url_parse
 
 @app.route('/')
@@ -52,4 +52,23 @@ def register():
 @login_required
 def user(username):
     user = User.query.filter_by(email=username).first_or_404()
-    return render_template('profile.html', user=user)
+    members = Member.query.filter_by(account_id=user.id)
+    member = request.form.get('member')
+    return render_template('user.html', user=user, members=members)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    # form = EditProfileForm()
+    member = request.form.get('member')
+    print(member)
+    # fname, lname = member.split(" ")
+    # print(fname)
+    # form.fname.data = fname
+    # form.lname.data = lname
+    # if form.validate_on_submit():
+    #     print('post')
+    #     current_user.fname = form.fname.data
+    #     db.session.commit()
+    return redirect(url_for('index'))
+    # return render_template('edit_profile.html', title='Edit Profile', form=form)
