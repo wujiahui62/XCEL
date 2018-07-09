@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block app_content %}
+<div class="container">
     <h1>Edit Profile</h1>
     <form action="" method="post">
         {{ form.hidden_tag() }}
@@ -13,11 +14,26 @@
         </p>
         <p>
             {{ form.lname.label }}<br>
-            {{ form.lname(size=32) }}<br>
+            {{ form.lname() }}<br>
             {% for error in form.lname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.gender.label }}<br>
+            {{ form.gender() }}<br>
+            {% for error in form.gender.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.birthday.label }}<br>
+            {{ form.birthday() }}<br>
+            {% for error in form.birthday.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+</div>
 {% endblock %}
