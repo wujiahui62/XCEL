@@ -47,6 +47,7 @@ class Member(UserMixin, db.Model):
     gender = db.Column(db.String(10))
     birthday = db.Column(db.Date)
     country = db.Column(db.String(50))
+    other = db.Column(db.String(50))
     state = db.Column(db.String(50))
     city = db.Column(db.String(50))
     address = db.Column(db.String(200))

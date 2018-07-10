@@ -91,30 +91,21 @@ def edit_profile():
             member.lname = lname
             member.gender = form.gender.data
             member.birthday = form.birthday.data
+            member.country = form.country.data
+            member.other = form.other.data
+            member.state = form.state.data
+            member.city = form.city.data
+            member.address = form.address.data
+            member.zip = form.zip.data
+            member.cell = form.cell.data
+            member.healthNotes = form.healthNotes.data
+            member.EmergencyContact = form.emergencyContact.data
+            member.EmergencyPhone = form.emergencyPhone.data
             first_name = None
             last_name = None
-        # insert a new record
-        else:
-            members = current_user.get_members()
-            for member in members:
-                if member.fname == fname and member.lname == lname:
-                    flash('Member with the same name already exists!')
-                    return redirect(url_for('edit_profile'))
-            new_member = Member(fname=fname, lname=lname, account=current_user)
-            new_member.gender = form.gender.data
-            new_member.birthday = form.birthday.data
-            db.session.add(new_member)
-        db.session.commit()
-
-        # test
-        # members = Member.query.all()
-        # for member in members:
-        #     print(member)
-            # events = member.registered_events()
-            # for event in events:
-            #     print(event)
-        flash('Your changes have been saved.')
-        return redirect(url_for('index'))
+            db.session.commit()
+            flash('Your changes have been saved.')
+            return redirect(url_for('index'))
     elif request.method == 'GET':
         member = Member.query.filter_by(fname=first_name, lname=last_name).first()
         form.fname.data = first_name
@@ -122,7 +113,49 @@ def edit_profile():
         if member is not None:
             form.gender.data = member.gender
             form.birthday.data = member.birthday
+            form.country.data = member.country
+            form.other.data = member.other
+            form.state.data = member.state
+            form.city.data = member.city
+            form.address.data = member.address
+            form.zip.data = member.zip
+            form.cell.data = member.cell
+            form.healthNotes.data = member.healthNotes
+            form.emergencyContact.data = member.EmergencyContact
+            form.emergencyPhone.data = member.EmergencyPhone
+
     return render_template('edit_profile.html', title='Edit Profile', form=form)
+
+@app.route('/add_member', methods=['GET', 'POST'])
+def add_member():
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        members = current_user.get_members()
+        fname = form.fname.data
+        lname = form.lname.data
+        for member in members:
+            if member.fname == fname and member.lname == lname:
+                flash('Member with the same name already exists!')
+                return redirect(url_for('add_member'))
+        new_member = Member(fname=fname, lname=lname, account=current_user)
+        new_member.gender = form.gender.data
+        new_member.birthday = form.birthday.data
+        new_member.country = form.country.data
+        new_member.other = form.other.data
+        new_member.state = form.state.data
+        new_member.city = form.city.data
+        new_member.address = form.address.data
+        new_member.zip = form.zip.data
+        new_member.cell = form.cell.data
+        new_member.healthNotes = form.healthNotes.data
+        new_member.EmergencyContact = form.emergencyContact.data
+        new_member.EmergencyPhone = form.emergencyPhone.data
+        db.session.add(new_member)
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('index'))
+    return render_template('edit_profile.html', title='Add Member', form=form)
+
 
 @app.route('/delete_member')
 @login_required
