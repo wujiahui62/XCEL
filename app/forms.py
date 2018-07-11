@@ -41,3 +41,7 @@ class EditProfileForm(FlaskForm):
     emergencyContact = StringField('emergencyContact')
     emergencyPhone = StringField('emergencyPhone')
     submit = SubmitField('Submit')
+
+class EventRegistrationForm(FlaskForm):
+    members = SelectField('members', choices=[])
+    register = SubmitField('Register')

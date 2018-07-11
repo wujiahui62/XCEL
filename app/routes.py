@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditUserForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditUserForm, EventRegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Member, Event
 from werkzeug.urls import url_parse
@@ -57,6 +57,13 @@ def user(username):
     form = EditUserForm()
     user = User.query.filter_by(email=username).first_or_404()
     members = Member.query.filter_by(account_id=user.id)
+    page = request.args.get('page', 1, type=int)
+    array = []
+    for member in members:
+        eventobj = {}
+        eventobj['member'] = member
+        eventobj['events'] = member.registered_events().paginate(page, app.config['EVENTS_PER_PAGE'], False).items
+        array.append(eventobj)
     if form.validate_on_submit():
         member = request.form.get('member')
         if member is not None:
@@ -73,7 +80,7 @@ def user(username):
                 last_name = None
                 flash('The member was deleted!')
                 return redirect(url_for('index'))
-    return render_template('user.html', user=user, members=members, form=form)
+    return render_template('user.html', user=user, members=members, form=form, array=array)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -167,3 +174,35 @@ def delete_member(member):
         db.session.delete(member)
         db.session.commit()
         return redirect(url_for('index'))
+
+@app.route('/events')
+def events():
+    upcoming = Event().get_upcoming_events()
+    passed = Event().get_passed_events()
+    return render_template('events.html', title='events', upcoming=upcoming, passed=passed)
+
+@app.route('/events/<event>')
+def event(event):
+    event = Event.query.filter_by(id=int(event)).first()
+    registrable = True
+    return render_template('event_detail.html', title='event_detail', event=event, registrable=registrable)
+
+@app.route('/registration/<event>', methods=['GET', 'POST'])
+def register_event(event):
+    form = EventRegistrationForm()
+    members = current_user.get_members()
+    event = Event.query.filter_by(id=int(event)).first()
+    form.members.choices = [(member.id, "{} {}".format(member.fname, member.lname)) for member in members]
+    if request.method == 'POST':
+        member_id = form.members.data
+        member = Member.query.filter_by(id=member_id).first()
+        if member.has_registered(event):
+            flash('The member has already registered the event!')
+            return redirect(url_for('index'))
+        else:
+            member.register(event)
+            db.session.commit()
+            flash('The member has successfully registered the event!')
+            return redirect(url_for('index'))
+    return render_template('event_register.html', form=form)
+

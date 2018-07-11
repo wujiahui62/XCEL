@@ -7,4 +7,5 @@ class Config(object):
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     ADMIN_ACCOUNT = 'baixiu2014@gmail.com'
+    EVENTS_PER_PAGE = 3
    

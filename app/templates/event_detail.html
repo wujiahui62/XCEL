@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>{{ event.title }}</h1>
+    <h1>{{ event.start_date }}</h1>
+    <h1>{{ event.end_date }}</h1>
+    <h1>{{ event.body }}</h1>
+    {% if registrable %}
+    <td><a href="{{ url_for('register_event', event=event.id) }}">Click here to register!</a></td>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="container">
+    <h1>Register this event!</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.members.label }}<br>
+            {{ form.members() }}<br>
+            {% for error in form.members.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.register() }}</p>
+    </form>
+</div>
+{% endblock %}

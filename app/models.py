@@ -1,5 +1,5 @@
 from app import app, db, login
-from datetime import date
+from datetime import date, datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, current_user
 from flask_admin.contrib.sqla import ModelView
@@ -36,9 +36,6 @@ class User(UserMixin, db.Model):
     #         if this_member.id == member.id or (this_member.fname != member.fname or this_member.lname != member.lname):
     #             return True
     #     return False
-
-
-
 
 class Member(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -91,6 +88,7 @@ class Member(UserMixin, db.Model):
             regis, (regis.c.event_id == Event.id)).filter(
                 regis.c.user_id == self.id).order_by(Event.start_date.desc())
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -103,7 +101,23 @@ class Event(db.Model):
     body = db.Column(db.Text)
 
     def __repr__(self):
-        return '<Event: {}>'.format(self.title)
+        return '<Event: {}>'.format(self.id)
+
+    def get_upcoming_events(self):
+        now = datetime.now()
+        upcoming = Event.query.filter(Event.start_date >= now).order_by(Event.start_date)
+        return list(upcoming)
+
+    def get_passed_events(self):
+        now = datetime.now()
+        passed = Event.query.filter(Event.end_date <= now).order_by(Event.start_date.desc())
+        return list(passed)
+
+    def get_available_events(self):
+        return Event.query.filter(self.end_date - datetime.now() >= 0).order_by(Event.start_date.desc())
+    
+    # def registrable(self):
+    #     return Event.start_date >= datetime.now()
 
 class MyModelView(ModelView):
     def is_accessible(self):

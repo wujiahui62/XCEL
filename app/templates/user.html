@@ -18,5 +18,13 @@
     </form>
     <p><a href="{{ url_for('add_member') }}">{{ 'Add new member' }}</a></p>
     <hr>
+    <p>Show the registered events</p>
+    {% for item in array %}
+        <p>{{ item['member'].fname }} {{ item['member'].lname }}</p>
+        {% for event in item['events'] %}
+            <p><a href="{{ url_for('event', event=event.id) }}">{{ event.title }}</a></p>
+        {% endfor %}
+        <hr>
+    {% endfor %}
 </div>
 {% endblock %}

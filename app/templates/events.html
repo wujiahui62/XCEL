@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="container">
+    {% for event in upcoming %}
+        {% include '_upcoming.html' %}
+    {% endfor %}
+    </br>
+    {{ 'Expired events' }}
+    {% for event in passed %}
+    {% include '_passed.html' %}
+{% endfor %}
+
+</div>
+{% endblock %}
