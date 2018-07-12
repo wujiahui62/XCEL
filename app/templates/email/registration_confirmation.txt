@@ -1,0 +1,9 @@
+Dear user,
+{{ member.fname}} {{ member.lname}}'s registration is confirmed :
+event: {{ event.title }}
+start: {{ event.start_date }}
+end: {{ event.end_date }}
+body: {{ event.doby }}
+Have fun with Xcel!
+Sincerely,
+The Xcel Team

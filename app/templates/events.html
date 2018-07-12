@@ -2,10 +2,17 @@
 
 {% block app_content %}
 <div class="container">
+    {{ 'On going events' }}
+    {% for event in ongoing %}
+        {% include '_passed.html' %}
+    {% endfor %}
+    <hr>
+    {{ 'Upcoming events, check it out to register!' }}
+    <br>
     {% for event in upcoming %}
         {% include '_upcoming.html' %}
     {% endfor %}
-    </br>
+    <hr>
     {{ 'Expired events' }}
     {% for event in passed %}
     {% include '_passed.html' %}

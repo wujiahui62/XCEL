@@ -1,10 +1,12 @@
 from app import app, db, login
-from datetime import date, datetime
+from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, current_user
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import Admin, AdminIndexView
 from flask import redirect, url_for
+from time import time
+import jwt
 
 # association table
 regis = db.Table('regis',
@@ -31,11 +33,20 @@ class User(UserMixin, db.Model):
     def get_members(self):
         return Member.query.filter_by(account_id=self.id)
 
-    # def has_added(self, this_member):
-    #     for member in members:
-    #         if this_member.id == member.id or (this_member.fname != member.fname or this_member.lname != member.lname):
-    #             return True
-    #     return False
+    def get_reset_password_token(self, expires_in=1800):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+
+# static method can be invoked from the class
+    @staticmethod
+    def verify_reset_password_token(token):
+        try:
+            id = jwt.decode(token, app.config['SECRET_KEY'],
+            algorithms=['HS256'])['reset_password']
+        except:
+            return
+        return User.query.get(id)
 
 class Member(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -95,8 +106,8 @@ def load_user(id):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    start_date = db.Column(db.Date, index=True)
-    end_date = db.Column(db.Date)
+    start_date = db.Column(db.DateTime, index=True, default=datetime.now)
+    end_date = db.Column(db.DateTime, index=True)
     title = db.Column(db.String(500))
     body = db.Column(db.Text)
 
@@ -105,19 +116,24 @@ class Event(db.Model):
 
     def get_upcoming_events(self):
         now = datetime.now()
-        upcoming = Event.query.filter(Event.start_date >= now).order_by(Event.start_date)
+        upcoming = Event.query.filter(Event.start_date > now).order_by(Event.start_date)
         return list(upcoming)
+
+    def get_ongoing_events(self):
+        now = datetime.now()
+        ongoing = Event.query.filter(Event.start_date <= now, Event.end_date >= now).order_by(Event.start_date)
+        return list(ongoing)
 
     def get_passed_events(self):
         now = datetime.now()
-        passed = Event.query.filter(Event.end_date <= now).order_by(Event.start_date.desc())
+        passed = Event.query.filter(Event.end_date < now).order_by(Event.start_date.desc())
         return list(passed)
 
     def get_available_events(self):
         return Event.query.filter(self.end_date - datetime.now() >= 0).order_by(Event.start_date.desc())
     
-    # def registrable(self):
-    #     return Event.start_date >= datetime.now()
+    def registrable(self):
+        return self.start_date >= datetime.now()
 
 class MyModelView(ModelView):
     def is_accessible(self):
@@ -128,26 +144,17 @@ class MyModelView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('login'))
 
-# class MyAdminIndexView(AdminIndexView):
-#     def is_accessible(self):
-        # if current_user.is_authenticated:
-        #     return current_user.admin
-        # return False
+class MyAdminIndexView(AdminIndexView):
+    def is_accessible(self):
+        if current_user.is_authenticated:
+            return current_user.admin
+        return False
 
-#     def inaccessible_callback(self, name, **kwargs):
-#         return redirect(url_for('login'))
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
 
-# admin = Admin(app, index_view=MyAdminIndexView)
-admin = Admin(app)
+admin = Admin(app, index_view=MyAdminIndexView())
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Member, db.session))
 admin.add_view(MyModelView(Event, db.session))
-# admin.add_view(MyModelView(regis, db.session))
-
-
-#event1.register.append(user1)
-#db.session.commit()
-# account = User.query.filter_by(email=current_user.email).first()
-# create a new member: x = Member(fname=Evan, lname=li, account=account)
-# db.session.add(x), db.session.commit()
 

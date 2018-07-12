@@ -3,6 +3,7 @@
 {% block app_content %}
 <div class="container">
     <h1>Hi {{ user.email }}</h1>
+    {% if count > 0 %}
     <p>Family members</p>
     <form action="" method="post">
     {{ form.hidden_tag() }}
@@ -16,6 +17,7 @@
     <p>{{ form.edit() }}</p>
     <p>{{ form.delete() }}</p>
     </form>
+    {% endif %}
     <p><a href="{{ url_for('add_member') }}">{{ 'Add new member' }}</a></p>
     <hr>
     <p>Show the registered events</p>

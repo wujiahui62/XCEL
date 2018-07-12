@@ -1,9 +1,6 @@
 <table>
     <tr valign="top">
-        <td>start date: {{ event.start_date }}, end date: {{ event.end_date}}</td>
+        <td><a href="{{ url_for('event', event=event.id) }}">title: {{ event.title }}</a></td>
         </br>
-        <td>title: {{ event.title }}</td>
-        </br>
-        <td>id: {{ event.id }}</td>
     </tr>
 </table>
