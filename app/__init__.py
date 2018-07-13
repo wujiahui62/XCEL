@@ -9,7 +9,7 @@ import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='files')
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)

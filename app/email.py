@@ -34,5 +34,11 @@ def send_confirmation_email(user, member, event):
                html_body=render_template('email/registration_confirmation.html',
                                          member=member, event=event))
 
+def send_account_registration_email(user):
+    send_email('[Xcel] Thank you for registering Xcel!',
+               sender=app.config['ADMINS'][0],
+               recipients=[user.email],
+               text_body=render_template('email/account_registration_confirmation.txt', user=user),
+               html_body=render_template('email/account_registration_confirmation.html', user=user))
                                     
                 

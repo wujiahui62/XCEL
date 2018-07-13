@@ -1,0 +1,6 @@
+Dear user,
+Thank you for being a member of Xcel
+Your email used to register is: {{ user.email }} 
+Have fun with Xcel!
+Sincerely,
+The Xcel Team

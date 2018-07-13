@@ -2,9 +2,9 @@ from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditUserForm, EventRegistrationForm, ResetPasswordRequestForm, ResetPasswordForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Member, Event
+from app.models import User, Member, Event, Image, File
 from werkzeug.urls import url_parse
-from app.email import send_password_reset_email, send_confirmation_email
+from app.email import send_password_reset_email, send_confirmation_email, send_account_registration_email
 
 first_name = None
 last_name = None
@@ -48,6 +48,7 @@ def register():
        user.set_password(form.password.data)
        db.session.add(user)
        db.session.commit()
+       send_account_registration_email(user)
        flash('Congratulations! You are now a registerd user')
        return redirect(url_for('login'))
     return render_template('register.html', title='register', form=form)
@@ -188,7 +189,9 @@ def events():
 def event(event):
     event = Event.query.filter_by(id=int(event)).first()
     registrable = event.registrable()
-    return render_template('event_detail.html', title='event_detail', event=event, registrable=registrable)
+    images = event.related_images()
+    files = event.related_files()
+    return render_template('event_detail.html', title='event_detail', event=event, registrable=registrable, images=images, files=files)
 
 @app.route('/registration/<event>', methods=['GET', 'POST'])
 def register_event(event):

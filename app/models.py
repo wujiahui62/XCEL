@@ -22,14 +22,6 @@ try:
 except OSError:
     pass
 
-
-# Create directory for file fields to use
-file_path = op.join(op.dirname(__file__), 'files')
-try:
-    os.mkdir(file_path)
-except OSError:
-    pass
-
 # association table
 regis = db.Table('regis',
     db.Column('user_id', db.Integer, db.ForeignKey('member.id')),
@@ -41,6 +33,13 @@ event_file_table = db.Table('event_file_table',
     db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
     db.Column('file_id', db.Integer, db.ForeignKey('file.id'))
     )
+
+# association table Event <-> Image
+event_image_table = db.Table('event_image_table',
+    db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
+    db.Column('image_id', db.Integer, db.ForeignKey('image.id'))
+    )
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -140,6 +139,8 @@ class Event(db.Model):
     body = db.Column(db.Text)
     event_file = db.relationship('File', secondary=event_file_table, 
                   backref=db.backref('file_event', lazy='dynamic'), lazy='dynamic')
+    event_image = db.relationship('Image', secondary=event_image_table, 
+                  backref=db.backref('image_event', lazy='dynamic'), lazy='dynamic')
 
 
     def __repr__(self):
@@ -181,7 +182,23 @@ class Event(db.Model):
         return File.query.join(
             event_file_table, (event_file_table.c.file_id == File.id)).filter(
                 event_file_table.c.event_id == self.id)
-        
+
+    def relate_to_image(self, image):
+        if not self.has_relation_to(image):
+            self.event_image.append(image)
+    
+    def unrelate_to_image(self, image):
+        if self.has_relation_to(image):
+            self.event_image.remove(image)
+
+    def has_relation_to(self, image):
+        return self.event_image.filter(event_image_table.c.image_id == image.id).count() > 0
+
+    def related_images(self):
+        return Image.query.join(
+            event_image_table, (event_image_table.c.image_id == Image.id)).filter(
+                event_image_table.c.event_id == self.id)
+
 
 class File(db.Model):
     id = db.Column(db.Integer, primary_key=True)
