@@ -11,9 +11,21 @@ last_name = None
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
-    return render_template("index.html", title="Home page")
+    slideshow = []
+    upcoming = Event().get_upcoming_events()
+    ongoing = Event().get_ongoing_events()
+    for event in upcoming:
+        eventobj = {}
+        eventobj['event'] = event
+        eventobj['image'] = event.related_images().first() 
+        slideshow.append(eventobj)
+    for event in ongoing:
+        eventobj = {}
+        eventobj['event'] = event
+        eventobj['image'] = event.related_images().first() 
+        slideshow.append(eventobj)
+    return render_template("index.html", title="Home page", slide=slideshow[0], slides=slideshow[1:], len=len(slideshow))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -206,8 +218,9 @@ def register_event(event):
             flash('The member has already registered the event!')
             return redirect(url_for('index'))
         else:
-            # member.register(event)
-            # db.session.commit()
+            member.register(event)
+            event.participants = event.participants + 1
+            db.session.commit()
             send_confirmation_email(current_user, member, event)
             flash('The member has successfully registered the event!')
             return redirect(url_for('index'))

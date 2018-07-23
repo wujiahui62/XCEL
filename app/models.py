@@ -135,6 +135,9 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     start_date = db.Column(db.DateTime, index=True, default=datetime.now)
     end_date = db.Column(db.DateTime, index=True)
+    location = db.Column(db.String(128))
+    limit = db.Column(db.Integer)
+    participants = db.Column(db.Integer, default=0)
     title = db.Column(db.String(500))
     body = db.Column(db.Text)
     event_file = db.relationship('File', secondary=event_file_table, 
@@ -165,7 +168,7 @@ class Event(db.Model):
         return Event.query.filter(self.end_date - datetime.now() >= 0).order_by(Event.start_date.desc())
         
     def registrable(self):
-        return self.start_date >= datetime.now()
+        return self.start_date >= datetime.now() and self.participants < self.limit
 
     def relate_to_file(self, file):
         if not self.has_relation_to(file):
