@@ -13,10 +13,11 @@ from sqlalchemy.event import listens_for
 from flask_admin.form import rules
 from flask_admin.contrib import sqla
 from jinja2 import Markup
+from os.path import join
 
 
 # Create directory for file fields to use
-file_path = op.join(op.dirname(__file__), 'files')
+file_path = op.join(op.dirname(__file__), 'static/files')
 try:
     os.mkdir(file_path)
 except OSError:
@@ -166,7 +167,7 @@ class Event(db.Model):
 
     def get_available_events(self):
         return Event.query.filter(self.end_date - datetime.now() >= 0).order_by(Event.start_date.desc())
-        
+
     def registrable(self):
         return self.start_date >= datetime.now() and self.participants < self.limit
 
@@ -282,7 +283,7 @@ class ImageView(sqla.ModelView):
             return ''
 
         return Markup('<img src="%s">' % url_for('static',
-                                                 filename=form.thumbgen_filename(model.path)))
+                                                 filename=join("files/", form.thumbgen_filename(model.path))))
 
     column_formatters = {
         'path': _list_thumbnail

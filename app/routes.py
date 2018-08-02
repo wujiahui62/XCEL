@@ -12,20 +12,12 @@ last_name = None
 @app.route('/')
 @app.route('/index')
 def index():
-    slideshow = []
-    upcoming = Event().get_upcoming_events()
-    ongoing = Event().get_ongoing_events()
-    for event in upcoming:
-        eventobj = {}
-        eventobj['event'] = event
-        eventobj['image'] = event.related_images().first() 
-        slideshow.append(eventobj)
-    for event in ongoing:
-        eventobj = {}
-        eventobj['event'] = event
-        eventobj['image'] = event.related_images().first() 
-        slideshow.append(eventobj)
-    return render_template("index.html", title="Home page", slide=slideshow[0], slides=slideshow[1:], len=len(slideshow))
+    event = Event().query.filter_by(title='index').first()
+    images = event.related_images()
+    slides = []
+    for image in images:
+        slides.append(image)
+    return render_template("index.html", title="Home page", slide=slides[0], slides=slides[1:], len=len(slides))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

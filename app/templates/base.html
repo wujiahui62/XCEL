@@ -1,5 +1,15 @@
 {% extends 'bootstrap/base.html' %}
 
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="/static/css/panel.css">
+<link rel="stylesheet" href="/static/css/footer.css">
+<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
+
+{% endblock %}
+
 {% block title %}
     {{ 'Welcome to the Xcel Future' }}
 {% endblock %}
@@ -42,6 +52,10 @@
 
 {% block content %}
     <div class="container">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                    
         {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
@@ -54,6 +68,70 @@
     
         {# application content needs to be provided in the app_content block #}
         {% block app_content %}{% endblock %}
-
+        </div>
+        </div>
+      <div class="col-lg-1"></div>
     </div>
+
+
+<footer class="footer-distributed">
+
+        <div class="footer-left">
+
+            <h3>Company<span>logo</span></h3>
+
+            <p class="footer-links">
+                <a href="#">Home</a>
+                ·
+                <a href="#">Blog</a>
+                ·
+                <a href="#">Youth</a>
+                ·
+                <a href="#">Adult</a>
+                ·
+                <a href="#">Events</a>
+                ·
+                <a href="#">Contact</a>
+            </p>
+
+            <p class="footer-company-name">The Xcel Future &copy; 2018</p>
+        </div>
+
+        <div class="footer-center">
+
+            <div>
+                <i class="fa fa-map-marker"></i>
+                <p><span>34000 Summer Dr</span> Solon, OH</p>
+            </div>
+
+            <div>
+                <i class="fa fa-phone"></i>
+                <p>+1 555 123456</p>
+            </div>
+
+            <div>
+                <i class="fa fa-envelope"></i>
+                <p><a href="mailto:support@company.com">support@company.com</a></p>
+            </div>
+
+        </div>
+
+        <div class="footer-right">
+
+            <p class="footer-company-about">
+                <span>About the company</span>
+                The Xcel Future provide youth programs including sports, arts and encourages healthy lifestyles and foster connections in our communities through adult fitness.            </p>
+
+            <div class="footer-icons">
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
 {% endblock %}
