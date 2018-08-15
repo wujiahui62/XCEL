@@ -43,3 +43,8 @@
     background-color: #3F69AA;
     color: #fff;
 }
+
+.panel-body {
+    min-height: 10em;
+    max-height: 10em;
+  }

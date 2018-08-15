@@ -46,6 +46,13 @@ class EventRegistrationForm(FlaskForm):
     members = SelectField('members', choices=[])
     register = SubmitField('Register')
 
+class LeagueRegistrationForm(FlaskForm):
+    teams = SelectField('teams', choices=[])
+    new_team = StringField('new team')
+    register = SubmitField('Register')
+    scheduling_requests = TextAreaField('type your sheduling requests here')
+
+
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')

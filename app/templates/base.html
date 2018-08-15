@@ -29,11 +29,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('index') }}">{{ 'Home' }}</a></li>
-                    <li><a href="#">{{ 'About' }}</a></li>
-                    <li><a href="#">{{ 'Youth Development' }}</a></li>
-                    <li><a href="#">{{ 'Registration' }}</a></li>
-                    <li><a href="{{ url_for('events') }}">{{ 'Events' }}</a></li>
-                    <li><a href="#">{{ 'Gallery' }}</a></li>
+                    <li><a href="{{ url_for('events') }}">{{ 'Youth Development' }}</a></li>
+                    <li><a href="{{ url_for('leagues') }}">{{ 'Adult Sports' }}</a></li>
+                    <li><a href="{{ url_for('volunteer') }}">{{ 'Volunteer' }}</a></li>
+                    <li><a href="#">{{ 'Forum' }}</a></li>
                     <li><a href="#">{{ 'Contact' }}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>{{ league.title }}</h1>
+    <h1>{{ league.start_date }}</h1>
+    <h1>{{ league.end_date }}</h1>
+    <h1>{{ league.body }}</h1>
+    <h1>{{ league.guy_num }}</h1>
+    <h1>{{ league.girl_num }}</h1>
+    <h1>{{ league.rule }}</h1>
+    {% if registrable %}
+    <td><a href="{{ url_for('register_league', league=league.id) }}">Click here to register!</a></td>
+    {% endif %}
+{% endblock %}

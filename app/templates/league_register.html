@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="container">
+    <h1>Register this league!</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.teams.label }}<br>
+            {{ form.teams() }}<br>
+            {% for error in form.teams.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+            {{ form.new_team.label}}
+            {{ form.new_team() }}<br>
+            {{ form.scheduling_requests.label }}
+            {{ form.scheduling_requests() }}
+        </p>
+        
+        <p>{{ form.register() }}</p>
+    </form>
+</div>
+{% endblock %}

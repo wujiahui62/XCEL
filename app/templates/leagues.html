@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="container">
+    {{ 'Current leagues' }}
+    {% for league in current %}
+        {% include '_current_league.html' %}
+    {% endfor %}
+    <hr>
+    {% if upcoming %}
+    {{ 'Upcoming leagues, check it out to register!' }}
+    <br>
+    {% for league in upcoming %}
+        {% include '_upcoming_league.html' %}
+    {% endfor %}
+    {% else %}
+    {{ 'There is no upcoming leagues' }}
+    {% endif %}
+    <hr>
+    {{ 'League history' }}
+    {% for league in passed %}
+    {% include '_passed_league.html' %}
+{% endfor %}
+
+</div>
+{% endblock %}

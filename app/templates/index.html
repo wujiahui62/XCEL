@@ -39,51 +39,57 @@
   <div class="col-sm-4">
     <div class="panel panel-defaul text-center">
       <div class="panel-heading">
-        <h3><span><img src="/static/img/basketball.png"></span> Adult registration</h3>
-      </div>
+        <h3><span><img src="/static/img/basketball.png"></span> Adult Sports</h3>
+      </div>      
       <div class="panel-body">
-          <p><strong>20</strong> Lorem</p>
-          <p><strong>15</strong> Ipsum</p>
-          <p><strong>5</strong> Dolor</p>
-          <p><strong>2</strong> Sit</p>
-          <p><strong>Endless</strong> Amet</p>
+          {% if not leagues %}
+          <p>No leagues available, please check back later!</p>
+          {% else %}
+          {% for league in leagues %}    
+          <p><a href="{{ url_for('leagues') }}">{{ league.name }}</a></p>
+          {% endfor %}
+          {% endif %}
       </div>
       <div class="panel-footer">
-        <p><a href="#">View More</a></p>
+        <p><a href="{{ url_for('leagues') }}">View More</a></p>
       </div>
     </div>
   </div>
   <div class="col-sm-4">
       <div class="panel panel-defaul text-center">
         <div class="panel-heading">
-            <h3><span><img src="/static/img/teenager.png"></span> Youth classes</h3>
+            <h3><span><img src="/static/img/teenager.png"></span> Youth Development</h3>
           </div>
         <div class="panel-body">
-            <p><strong>20</strong> Lorem</p>
-            <p><strong>15</strong> Ipsum</p>
-            <p><strong>5</strong> Dolor</p>
-            <p><strong>2</strong> Sit</p>
-            <p><strong>Endless</strong> Amet</p>
+          {% if not events %}
+          <p>No classes available</p>
+          {% else %}
+          {% for event in events %}
+            <p><a href="{{ url_for('event', event=event.id) }}">{{ event.title }}</a></p>
+          {% endfor %}
+          {% endif %}
         </div>
         <div class="panel-footer">
-          <p><a href="#">View More</a></p>
+          <p><a href="{{ url_for('events') }}">View More</a></p>
         </div>
       </div>
     </div>
     <div class="col-sm-4">
         <div class="panel panel-defaul text-center">
           <div class="panel-heading">
-              <h3><span><img src="/static/img/calendar.png"></span> Events</h3>
+              <h3><span><img src="/static/img/calendar.png"></span> Volunteer Activities</h3>
             </div>
           <div class="panel-body">
-              <p><strong>20</strong> Lorem</p>
-              <p><strong>15</strong> Ipsum</p>
-              <p><strong>5</strong> Dolor</p>
-              <p><strong>2</strong> Sit</p>
-              <p><strong>Endless</strong> Amet</p>
-          </div>
+              {% if not activities %}
+              <p>No activities available, please check back later!</p>
+              {% else %}
+              {% for activity in activities %}    
+              <p><a href="{{ url_for('volunteer') }}">{{ acivity.name }}</a></p>
+              {% endfor %}
+              {% endif %}
+              </div>
           <div class="panel-footer">
-            <p><a href="#">View More</a></p>
+            <p><a href="{{ url_for('volunteer') }}">View More</a></p>
           </div>
         </div>
     </div>

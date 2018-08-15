@@ -1,8 +1,8 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditUserForm, EventRegistrationForm, ResetPasswordRequestForm, ResetPasswordForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditUserForm, EventRegistrationForm, ResetPasswordRequestForm, ResetPasswordForm, LeagueRegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Member, Event, Image, File
+from app.models import User, Member, Event, Image, File, League, Team, League_Team
 from werkzeug.urls import url_parse
 from app.email import send_password_reset_email, send_confirmation_email, send_account_registration_email
 
@@ -12,12 +12,22 @@ last_name = None
 @app.route('/')
 @app.route('/index')
 def index():
-    event = Event().query.filter_by(title='index').first()
-    images = event.related_images()
+    images = []
     slides = []
+    event = Event().query.filter_by(title='index').first()
+    if event is not None:
+        images = event.related_images()
     for image in images:
         slides.append(image)
-    return render_template("index.html", title="Home page", slide=slides[0], slides=slides[1:], len=len(slides))
+    leagues = League().get_leagues()
+    if len(leagues) >= 3:
+        leagues = leagues[:3]
+    events = Event().get_events()
+    if len(events) >= 3:
+        events = events[:3]
+    activities = []
+    return render_template("index.html", title="Home page", slide=slides[0], slides=slides[1:], len=len(slides),
+    leagues=leagues, events=events, activities=activities)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -209,13 +219,18 @@ def register_event(event):
         if member.has_registered(event):
             flash('The member has already registered the event!')
             return redirect(url_for('index'))
-        else:
+        elif event.registrable():
             member.register(event)
             event.participants = event.participants + 1
+            print(event.participants)
             db.session.commit()
             send_confirmation_email(current_user, member, event)
             flash('The member has successfully registered the event!')
             return redirect(url_for('index'))
+        else:
+            flash('There registration is up to limit, contact us for further info!')
+            return redirect(url_for('index'))
+            
     return render_template('event_register.html', form=form)
 
 @app.route('/rest_password_request', methods=['GET', 'POST'])
@@ -245,3 +260,58 @@ def reset_password(token):
         flash('Your password has been reset.')
         return redirect(url_for('login'))
     return render_template('reset_password.html', form=form)
+
+@app.route('/leagues')
+def leagues():
+    upcoming = League().get_upcoming_leagues()
+    current = League().get_current_leagues()
+    passed = League().get_passed_leagues()
+    return render_template('leagues.html', title='Leagues', upcoming=upcoming, passed=passed, current=current)
+
+@app.route('/volunteer')
+def volunteer():
+    return render_template('volunteer.html')
+
+@app.route('/leagues/<league>')
+def league(league):
+    league = League.query.filter_by(id=int(league)).first()
+    registrable = league.registrable()
+    return render_template('league_detail.html', title='league_detail', league=league, registrable=registrable)
+
+@app.route('/register_league/<league>', methods=['GET', 'POST'])
+def register_league(league):
+    form = LeagueRegistrationForm()
+    league = League.query.filter_by(id=int(league)).first()
+    teams = current_user.get_teams()
+    if teams is not None:
+        form.teams.choices = [(team.id, "{}".format(team.name)) for team in teams]
+    if request.method == 'POST':
+        if form.new_team.data:
+            # create a new team
+            team = Team.query.filter_by(name=form.new_team.data).first()
+            if team is not None and team.account_id == current_user.id:
+                flash('The team already exists, please select the team in the menu or create a team with another name!')
+                return redirect(url_for('register_league', league=league.id))
+            else:
+                team = Team(name=form.new_team.data, account=current_user)
+                db.session.add(team)
+        else:
+            team_id = form.teams.data
+            team = Team.query.filter_by(id=team_id).first()
+        if team.has_registered(league):
+            flash('The team has already registered the league!')
+            return redirect(url_for('index'))
+        elif league.registrable():
+            league_team = League_Team(league_id=league.id, team_id=team.id, scheduling_requests=form.scheduling_requests.data)
+            league.team_num = league.team_num + 1
+            league_team.league = league
+            league_team.team = team
+            db.session.add(league_team)
+            db.session.commit()
+            send_confirmation_email(current_user, team, league)
+            flash('The member has successfully registered the event!')
+            return redirect(url_for('index'))
+        else:
+            flash('There registration is up to limit, contact us for further info!')
+            return redirect(url_for('index'))
+    return render_template('league_register.html', form=form)
