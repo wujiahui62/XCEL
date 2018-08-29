@@ -1,0 +1,12 @@
+.navbar-default {
+    padding: 1em !important;
+}
+
+.navbar-left {
+    padding-left: 2em !important;
+    padding-right: 3em !important;
+}
+
+.navbar-collapse {
+    padding-bottom: 0em !important;
+}

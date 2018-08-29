@@ -304,10 +304,10 @@ class Team(db.Model):
     def has_registered(self, league):
         return League_Team.query.filter(League_Team.league_id==league.id, League_Team.team_id==self.id).count() > 0
 
-    # def registered_events(self):
-    #     return Event.query.join(
-    #         regis, (regis.c.event_id == Event.id)).filter(
-    #             regis.c.user_id == self.id).order_by(Event.start_date.desc())
+    def registered_leagues(self):
+        return League.query.join(
+            League_Team, (League_Team.league_id == League.id)).filter(
+                League_Team.team_id == self.id).order_by(League.start_date.desc())
 
     
 # association object

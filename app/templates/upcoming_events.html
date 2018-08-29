@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="container">
+{% if upcoming is None %}
+{{ 'No activities are currently available. Would you like to start one? Click Contact and let us know!' }}
+{% else %}
+{% for event in upcoming %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="thumbnail">
+        <a href="{{ url_for('event', event=event.id) }}">title: {{ event.title }}</a>
+            <img src="/static/img/calendar.png" alt="Lights" style="width:100%">
+            <div class="caption">
+            <p>Lorem ipsum...</p>
+            </div>
+        </a>
+        </div>
+    </div>
+    </div>
+{% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<p>Show the registered leagues</p>
+{% for item in array %}
+    <p>Team name: {{ item['team'].name }}</p>
+    {% if item['leagues'] %}
+    {% for league in item['leagues'] %}
+        <p><a href="{{ url_for('league', league=league.id) }}">{{ league.name }}</a></p>
+    {% endfor %}
+    {% else %}
+        <p>The team has no registered leagues.</p>
+    {% endif %}
+    <hr>
+{% endfor %}
+{% endblock %}

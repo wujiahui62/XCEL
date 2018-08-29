@@ -11,9 +11,9 @@
             {% for error in form.teams.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
-            {{ form.new_team.label}}
+            {{ form.new_team.label}}<br>
             {{ form.new_team() }}<br>
-            {{ form.scheduling_requests.label }}
+            {{ form.scheduling_requests.label }}<br>
             {{ form.scheduling_requests() }}
         </p>
         

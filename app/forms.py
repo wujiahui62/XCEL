@@ -47,8 +47,8 @@ class EventRegistrationForm(FlaskForm):
     register = SubmitField('Register')
 
 class LeagueRegistrationForm(FlaskForm):
-    teams = SelectField('teams', choices=[])
-    new_team = StringField('new team')
+    teams = SelectField('my teams', choices=[])
+    new_team = StringField('create a new team')
     register = SubmitField('Register')
     scheduling_requests = TextAreaField('type your sheduling requests here')
 

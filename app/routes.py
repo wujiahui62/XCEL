@@ -12,12 +12,10 @@ last_name = None
 @app.route('/')
 @app.route('/index')
 def index():
-    images = []
     slides = []
-    event = Event().query.filter_by(title='index').first()
-    if event is not None:
-        images = event.related_images()
-    for image in images:
+    # event = Event().query.filter_by(title='index').first()
+    index_images = Image().query.filter_by(name='index').all()
+    for image in index_images:
         slides.append(image)
     leagues = League().get_leagues()
     if len(leagues) >= 3:
@@ -74,13 +72,6 @@ def user(username):
     user = User.query.filter_by(email=username).first_or_404()
     members = Member.query.filter_by(account_id=user.id)
     count = members.count()
-    page = request.args.get('page', 1, type=int)
-    array = []
-    for member in members:
-        eventobj = {}
-        eventobj['member'] = member
-        eventobj['events'] = member.registered_events().paginate(page, app.config['EVENTS_PER_PAGE'], False).items
-        array.append(eventobj)
     if form.validate_on_submit():
         member = request.form.get('member')
         if member is not None:
@@ -97,7 +88,7 @@ def user(username):
                 last_name = None
                 flash('The member was deleted!')
                 return redirect(url_for('index'))
-    return render_template('user.html', user=user, members=members, form=form, array=array, count=count)
+    return render_template('user.html', user=user, members=members, form=form, count=count)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -192,14 +183,45 @@ def delete_member(member):
         db.session.commit()
         return redirect(url_for('index'))
 
-@app.route('/events')
+@app.route('/my_activities')
+@login_required
+def my_activities():
+    members = Member.query.filter_by(account_id=current_user.id)
+    page = request.args.get('page', 1, type=int)
+    array = []
+    for member in members:
+        eventobj = {}
+        eventobj['member'] = member
+        eventobj['events'] = member.registered_events().paginate(page, app.config['EVENTS_PER_PAGE'], False).items
+        array.append(eventobj)
+    return render_template('my_activities.html', array=array)
+
+@app.route('/my_leagues')
+@login_required
+def my_leagues():
+    teams = Team.query.filter_by(account_id=current_user.id)
+    page = request.args.get('page', 1, type=int)
+    array = []
+    for team in teams:
+        leagueobj = {}
+        leagueobj['team'] = team
+        leagueobj['leagues'] = team.registered_leagues().paginate(page, app.config['EVENTS_PER_PAGE'], False).items
+        array.append(leagueobj)
+    return render_template('my_leagues.html', array=array)
+
+@app.route('/youth_activities')
 def events():
     upcoming = Event().get_upcoming_events()
     passed = Event().get_passed_events()
     ongoing = Event().get_ongoing_events()
     return render_template('events.html', title='events', upcoming=upcoming, passed=passed, ongoing=ongoing)
 
-@app.route('/events/<event>')
+@app.route('/youth_registrations')
+def event_registration():
+    upcoming = Event().get_upcoming_events()
+    return render_template('upcoming_events.html', title='upcoming activities', upcoming=upcoming)
+
+@app.route('/youth_activities/<event>')
 def event(event):
     event = Event.query.filter_by(id=int(event)).first()
     registrable = event.registrable()
@@ -207,7 +229,7 @@ def event(event):
     files = event.related_files()
     return render_template('event_detail.html', title='event_detail', event=event, registrable=registrable, images=images, files=files)
 
-@app.route('/registration/<event>', methods=['GET', 'POST'])
+@app.route('/youth_registration/<event>', methods=['GET', 'POST'])
 def register_event(event):
     form = EventRegistrationForm()
     members = current_user.get_members()
