@@ -28,13 +28,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('index') }}">{{ 'Home' }}</a></li>
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ 'Youth Development' }}<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ url_for('events') }}">{{ 'Activities' }}</a></li>
-                        <li><a href="{{ url_for('event_registration') }}">{{ 'Registration' }}</a></li>
-                    </ul>
-                    </li>
+                    <li><a href="{{ url_for('youth_activity') }}">{{ 'Activities' }}</a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ 'Adult Sports' }}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -102,7 +96,7 @@
             <p class="footer-links">
                 <a href="{{ url_for('index') }}">Home</a>
                 ·
-                <a href="{{ url_for('events') }}">Youth</a>
+                <a href="{{ url_for('youth_activity') }}">Youth</a>
                 ·
                 <a href="{{ url_for('leagues') }}">Adult</a>
                 ·
@@ -125,12 +119,12 @@
 
             <div>
                 <i class="fa fa-phone"></i>
-                <p>+1 555 123456</p>
+                <p>+1-555-123456</p>
             </div>
 
             <div>
                 <i class="fa fa-envelope"></i>
-                <p><a href="mailto:support@company.com">support@company.com</a></p>
+                <p><a href="mailto:thexcelfuture@google.com">support@thexcelfuture.com</a></p>
             </div>
 
         </div>

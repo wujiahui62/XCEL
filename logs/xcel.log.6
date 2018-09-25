@@ -1,50 +1,4 @@
-2018-09-24 22:53:05,901 ERROR: Exception on /youth_activities [GET] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
-Traceback (most recent call last):
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
-    raise value
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/jiahuiwu/Desktop/XCEL/app/routes.py", line 217, in events
-    return render_template('events.html', title='events', upcoming=upcoming, passed=passed, ongoing=ongoing)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/templating.py", line 135, in render_template
-    context, ctx.app)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/templating.py", line 117, in _render
-    rv = template.render(context)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/asyncsupport.py", line 76, in render
-    return original_render(self, *args, **kwargs)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 1008, in render
-    return self.environment.handle_exception(exc_info, True)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 780, in handle_exception
-    reraise(exc_type, exc_value, tb)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/_compat.py", line 37, in reraise
-    raise value.with_traceback(tb)
-  File "/Users/jiahuiwu/Desktop/XCEL/app/templates/events.html", line 1, in top-level template code
-    {% extends "base.html" %}
-  File "/Users/jiahuiwu/Desktop/XCEL/app/templates/base.html", line 1, in top-level template code
-    {% extends 'bootstrap/base.html' %}
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
-    {% block doc -%}
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
-    {%- block html %}
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
-    {% block body -%}
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 21, in block "body"
-    {% block navbar %}
-  File "/Users/jiahuiwu/Desktop/XCEL/app/templates/base.html", line 35, in block "navbar"
-    <li><a href="{{ url_for(event_registration) }}">{{ 'Registration' }}</a></li>
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/helpers.py", line 305, in url_for
-    if endpoint[:1] == '.':
-jinja2.exceptions.UndefinedError: 'event_registration' is undefined
-2018-09-24 22:54:04,234 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:54:10,498 ERROR: Exception on /youth_registrations [GET] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
+2018-09-24 22:59:35,195 ERROR: Exception on /youth_registrations [GET] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
 Traceback (most recent call last):
   File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -117,4 +71,4 @@ Traceback (most recent call last):
   File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 59, in fail
     raise exc(msg, lineno, self.name, self.filename)
 jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endif'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.
-2018-09-24 22:59:29,290 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
+2018-09-24 23:00:46,806 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]

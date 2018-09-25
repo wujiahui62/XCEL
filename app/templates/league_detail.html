@@ -1,14 +1,27 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>{{ league.title }}</h1>
-    <h1>{{ league.start_date }}</h1>
-    <h1>{{ league.end_date }}</h1>
-    <h1>{{ league.body }}</h1>
-    <h1>{{ league.guy_num }}</h1>
-    <h1>{{ league.girl_num }}</h1>
-    <h1>{{ league.rule }}</h1>
-    {% if registrable %}
-    <td><a href="{{ url_for('register_league', league=league.id) }}">Click here to register!</a></td>
-    {% endif %}
+<div class="row">
+    <div class="col-md-3">
+        <img src="/static/img/{{ image.path }}">
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-8">
+        <h1>LEAGUE: {{ league.name }}</h1>
+        <h3>GENRE: {{ league.genre }}</h3>
+        <h1>DATES </h1>
+        <h3>Registration date: {{ league.open_registration }}</h3>
+        <h3>State date: {{ league.start_date }}</h3>
+        <h3>End date: {{ league.end_date }}</h3>
+        <h1>SCHEDULE </h1>
+        <h3>Time(s): {{ league.time_1 }}</h3>
+        <h1>TEAMS</h1>
+        {% for team in teams %}
+        <h3>{{ team.name }}</h3>
+        {% endfor %}
+        {% if league.registrable %}            
+        <h1><a href="{{ url_for('register_league', league=league.id) }}">Click here to register!</a></h1>
+        {% endif %}    
+    </div>
+</div>
 {% endblock %}

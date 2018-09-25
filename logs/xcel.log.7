@@ -1,4 +1,4 @@
-2018-09-24 16:37:06,907 ERROR: Exception on /register_league/2 [GET] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
+2018-09-24 22:53:05,901 ERROR: Exception on /youth_activities [GET] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
 Traceback (most recent call last):
   File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,25 +12,39 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/jiahuiwu/Desktop/XCEL/app/routes.py", line 307, in register_league
-    def register_league(league):
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/werkzeug/local.py", line 347, in __getattr__
-    return getattr(self._get_current_object(), name)
-AttributeError: 'AnonymousUserMixin' object has no attribute 'get_teams'
-2018-09-24 16:41:45,300 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 16:42:06,239 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 16:42:27,922 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 16:42:44,790 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 16:43:23,288 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 16:45:44,199 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 16:46:49,010 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:08:58,324 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:09:23,832 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:09:31,482 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:09:35,731 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:10:58,618 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:11:49,106 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:12:21,202 ERROR: Exception on /contact [POST] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
+  File "/Users/jiahuiwu/Desktop/XCEL/app/routes.py", line 217, in events
+    return render_template('events.html', title='events', upcoming=upcoming, passed=passed, ongoing=ongoing)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/templating.py", line 135, in render_template
+    context, ctx.app)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/templating.py", line 117, in _render
+    rv = template.render(context)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/asyncsupport.py", line 76, in render
+    return original_render(self, *args, **kwargs)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 1008, in render
+    return self.environment.handle_exception(exc_info, True)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 780, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/jiahuiwu/Desktop/XCEL/app/templates/events.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/Users/jiahuiwu/Desktop/XCEL/app/templates/base.html", line 1, in top-level template code
+    {% extends 'bootstrap/base.html' %}
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 1, in top-level template code
+    {% block doc -%}
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 4, in block "doc"
+    {%- block html %}
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 20, in block "html"
+    {% block body -%}
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask_bootstrap/templates/bootstrap/base.html", line 21, in block "body"
+    {% block navbar %}
+  File "/Users/jiahuiwu/Desktop/XCEL/app/templates/base.html", line 35, in block "navbar"
+    <li><a href="{{ url_for(event_registration) }}">{{ 'Registration' }}</a></li>
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/helpers.py", line 305, in url_for
+    if endpoint[:1] == '.':
+jinja2.exceptions.UndefinedError: 'event_registration' is undefined
+2018-09-24 22:54:04,234 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
+2018-09-24 22:54:10,498 ERROR: Exception on /youth_registrations [GET] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
 Traceback (most recent call last):
   File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
     response = self.full_dispatch_request()
@@ -44,55 +58,63 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/jiahuiwu/Desktop/XCEL/app/routes.py", line 347, in contact
-    contact = Contact()
-NameError: name 'Contact' is not defined
-2018-09-24 20:12:41,501 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:13:16,373 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:13:20,228 ERROR: Exception on /contact [POST] [in /Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py:1761]
-Traceback (most recent call last):
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 2292, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1815, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1718, in handle_user_exception
+  File "/Users/jiahuiwu/Desktop/XCEL/app/routes.py", line 222, in event_registration
+    return render_template('upcoming_events.html', title='upcoming activities', upcoming=upcoming)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/templating.py", line 134, in render_template
+    return _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/loaders.py", line 125, in load
+    code = environment.compile(source, name, filename)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 591, in compile
+    self.handle_exception(exc_info, source_hint=source_hint)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 780, in handle_exception
     reraise(exc_type, exc_value, tb)
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/_compat.py", line 35, in reraise
-    raise value
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1813, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/flask/app.py", line 1799, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/Users/jiahuiwu/Desktop/XCEL/app/routes.py", line 362, in contact
-    send_contact_us_email(contact)
-NameError: name 'send_contact_us_email' is not defined
-2018-09-24 20:14:07,314 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:15:21,217 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:15:27,364 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:15:32,766 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:15:36,446 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:20:16,133 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 20:20:40,831 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 21:59:16,720 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 21:59:38,668 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 21:59:57,941 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:00:47,966 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:01:32,361 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:02:31,346 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:09:17,607 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:12:38,919 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:13:40,220 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:16:41,340 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:16:49,067 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:19:35,677 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:21:03,718 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:23:22,492 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:25:55,342 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:26:36,723 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:27:06,318 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:28:02,312 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:35:38,998 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:36:41,943 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:50:13,030 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:50:41,614 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
-2018-09-24 22:53:03,885 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/_compat.py", line 37, in reraise
+    raise value.with_traceback(tb)
+  File "/Users/jiahuiwu/Desktop/XCEL/app/templates/upcoming_events.html", line 21, in template
+    {% endif %}
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/environment.py", line 497, in _parse
+    return Parser(self, source, name, encode_filename(filename)).parse()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 901, in parse
+    result = nodes.Template(self.subparse(), lineno=1)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 883, in subparse
+    rv = self.parse_statement()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 130, in parse_statement
+    return getattr(self, 'parse_' + self.stream.current.value)()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 268, in parse_block
+    node.body = self.parse_statements(('name:endblock',), drop_needle=True)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 165, in parse_statements
+    result = self.subparse(end_tokens)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 883, in subparse
+    rv = self.parse_statement()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 130, in parse_statement
+    return getattr(self, 'parse_' + self.stream.current.value)()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 223, in parse_if
+    drop_needle=True)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 165, in parse_statements
+    result = self.subparse(end_tokens)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 883, in subparse
+    rv = self.parse_statement()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 130, in parse_statement
+    return getattr(self, 'parse_' + self.stream.current.value)()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 199, in parse_for
+    body = self.parse_statements(('name:endfor', 'name:else'))
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 165, in parse_statements
+    result = self.subparse(end_tokens)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 883, in subparse
+    rv = self.parse_statement()
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 144, in parse_statement
+    self.fail_unknown_tag(token.value, token.lineno)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 97, in fail_unknown_tag
+    return self._fail_ut_eof(name, self._end_token_stack, lineno)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 90, in _fail_ut_eof
+    self.fail(' '.join(message), lineno)
+  File "/Users/jiahuiwu/anaconda/lib/python3.6/site-packages/jinja2/parser.py", line 59, in fail
+    raise exc(msg, lineno, self.name, self.filename)
+jinja2.exceptions.TemplateSyntaxError: Encountered unknown tag 'endif'. You probably made a nesting mistake. Jinja is expecting this tag, but currently looking for 'endfor' or 'else'. The innermost block that needs to be closed is 'for'.
+2018-09-24 22:59:29,290 INFO: Microblog startup [in /Users/jiahuiwu/Desktop/XCEL/app/__init__.py:48]

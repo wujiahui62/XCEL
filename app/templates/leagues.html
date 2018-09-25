@@ -1,21 +1,37 @@
 {% extends "base.html" %}
 
+{% block title %}
+    {{ 'Adult leagues' }}
+{% endblock %}
+
 {% block app_content %}
 <div class="container">
-    {% if upcoming %}
-    {{ 'Upcoming leagues, check it out to register!' }}
-    <br>
-    {% for league in upcoming %}
-        {% include '_upcoming_league.html' %}
-    {% endfor %}
-    {% else %}
-    {{ 'There is no leagues available' }}
-    {% endif %}
-    <hr>
-    {{ 'League history' }}
-    {% for league in passed %}
-    {% include '_passed_league.html' %}
-{% endfor %}
-
+{% if leagues %}
+{% for league in leagues %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <img src="/static/img/balls.jpg" alt="Lights" style="width:100%">
+        </div>
+    </div>
+    <div class="col-md-9">
+            <a href="{{ url_for('league', league=league.id) }}">
+            <h3>League: {{ league.name }}</h3></a>
+            <h4>Genre: {{ league.genre}}</h4>
+            <h4>Where: {{ league.where }}</h4>
+            <h4>Time: {{  league.time_1 }}</h4>
+            <h1></h1>
+            <h4>Registration: {{ league.open_registration }}</h4>
+            <h4>Start: {{ league.start_date}}</h4>
+            <h4>End: {{ league.end_date}}</h4>
+            {% if league.registrable %}            
+            <h3><a href="{{ url_for('register_league', league=league.id) }}">Click here to register!</a></h3>
+            {% endif %}
+    </div>
 </div>
-{% endblock %}
+{% endfor %}
+{% else %}
+{{ 'No leagues are currently available. Would you like to start one? Click Contact and let us know!' }}
+{% endif %}
+</div>
+{% endblock %}       

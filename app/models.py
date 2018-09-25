@@ -14,6 +14,7 @@ from flask_admin.form import rules
 from flask_admin.contrib import sqla
 from jinja2 import Markup
 from os.path import join
+from sqlalchemy.dialects.mysql import TIME
 
 
 # Create directory for file fields to use
@@ -40,6 +41,13 @@ event_image_table = db.Table('event_image_table',
     db.Column('event_id', db.Integer, db.ForeignKey('event.id')),
     db.Column('image_id', db.Integer, db.ForeignKey('image.id'))
     )
+
+# association table League <-> Image
+league_image_table = db.Table('league_image_table',
+    db.Column('league_id', db.Integer, db.ForeignKey('league.id')),
+    db.Column('image_id', db.Integer, db.ForeignKey('image.id'))
+    )
+
 
 # association table League <-> Team
 # league_team_table = db.Table('league_team_table',
@@ -142,8 +150,11 @@ def load_user(id):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    weekday = db.Column(db.String(64))
+    time = db.Column(db.TIME())
     start_date = db.Column(db.DateTime, index=True, default=datetime.now)
     end_date = db.Column(db.DateTime, index=True)
+    registration = db.Column(db.DateTime, index=True)
     location = db.Column(db.String(128))
     limit = db.Column(db.Integer)
     participants = db.Column(db.Integer, default=0)
@@ -158,15 +169,15 @@ class Event(db.Model):
     def __repr__(self):
         return '<Event: {}>'.format(self.id)
 
-    def get_upcoming_events(self):
-        now = datetime.now()
-        upcoming = Event.query.filter(Event.start_date > now).order_by(Event.start_date)
-        return list(upcoming)
+    # def get_upcoming_events(self):
+    #     now = datetime.now()
+    #     upcoming = Event.query.filter(Event.start_date > now).order_by(Event.start_date)
+    #     return list(upcoming)
 
-    def get_passed_events(self):
-        now = datetime.now()
-        ongoing = Event.query.filter(Event.start_date <= now).order_by(Event.start_date)
-        return list(ongoing)
+    # def get_passed_events(self):
+    #     now = datetime.now()
+    #     ongoing = Event.query.filter(Event.start_date <= now).order_by(Event.start_date)
+    #     return list(ongoing)
 
     # def get_passed_events(self):
     #     now = datetime.now()
@@ -178,6 +189,8 @@ class Event(db.Model):
         return list(events)
 
     def registrable(self):
+        if self.start_date is None or self.start_date < datetime.now():
+            return False
         if self.participants is None:
             self.participants = 0
         if self.limit is None:
@@ -253,6 +266,8 @@ class League(db.Model):
     teams = db.relationship('League_Team', back_populates='league')
     # league_team = db.relationship('Team', secondary=league_team_table, 
     #               backref=db.backref('team_league', lazy='dynamic'), lazy='dynamic')
+    league_image = db.relationship('Image', secondary=league_image_table, 
+                  backref=db.backref('image_league', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
         return '<League: {}>'.format(self.id)
@@ -267,21 +282,23 @@ class League(db.Model):
         upcoming = League.query.filter(League.start_date > now).order_by(League.start_date)
         return list(upcoming)
 
-    def get_current_leagues(self):
-        now = datetime.now()
-        current = League.query.filter(League.start_date <= now, League.end_date >= now).order_by(League.start_date)
-        return list(current)
+    # def get_current_leagues(self):
+    #     now = datetime.now()
+    #     current = League.query.filter(League.start_date <= now, League.end_date >= now).order_by(League.start_date)
+    #     return list(current)
 
-    def get_passed_leagues(self):
-        now = datetime.now()
-        passed = League.query.filter(League.end_date < now).order_by(League.start_date.desc())
-        return list(passed)
+    # def get_passed_leagues(self):
+    #     now = datetime.now()
+    #     passed = League.query.filter(League.end_date < now).order_by(League.start_date.desc())
+    #     return list(passed)
 
     def get_leagues(self):
         leagues = League.query.order_by(League.start_date.desc())
         return list(leagues)
 
     def registrable(self):
+        if self.start_date is None or self.start_date < datetime.now():
+            return False
         if self.team_num is None:
             self.team_num = 0
         if self.limit is None:
@@ -289,6 +306,22 @@ class League(db.Model):
             db.session.commit()
         return self.start_date >= datetime.now() and self.team_num < self.limit
  
+    def relate_to_image(self, image):
+        if not self.has_relation_to(image):
+            self.league_image.append(image)
+    
+    def unrelate_to_image(self, image):
+        if self.has_relation_to(image):
+            self.league_image.remove(image)
+
+    def has_relation_to(self, image):
+        return self.league_image.filter(league_image_table.c.image_id == image.id).count() > 0
+
+    def related_images(self):
+        return Image.query.join(
+            league_image_table, (league_image_table.c.image_id == Image.id)).filter(
+                league_image_table.c.league_id == self.id)
+
 
 class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -419,5 +452,5 @@ admin.add_view(MyModelView(League, db.session))
 admin.add_view(MyModelView(Team, db.session))
 admin.add_view(MyModelView(League_Team, db.session))
 admin.add_view(MyModelView(ContactForm, db.session))
-admin.add_view(FileView(File, db.session))
+# admin.add_view(FileView(File, db.session))
 admin.add_view(ImageView(Image, db.session))

@@ -1,17 +1,37 @@
 {% extends "base.html" %}
 
+{% block title %}
+    {{ 'Youth activites' }}
+{% endblock %}
+
 {% block app_content %}
 <div class="container">
-    {{ 'Upcoming events, check it out to register!' }}
-    <br>
-    {% for event in upcoming %}
-        {% include '_upcoming.html' %}
-    {% endfor %}
-    <hr>
-    {{ 'Expired events' }}
-    {% for event in passed %}
-    {% include '_passed.html' %}
-    {% endfor %}
-
+{% if length == 0 %}
+{{ 'No activities are currently available. Would you like to start one? Click Contact and let us know!' }}
+{% else %}
+{% for event in events %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="thumbnail">
+            <img src="/static/img/balls.jpg" alt="Lights" style="width:100%">
+        </div>
+    </div>
+    <div class="col-md-9">
+            <a href="{{ url_for('event', event=event.id) }}">
+            <h3>Class: {{ event.title }}</h3></a>
+            <h4>When: {{ event.weekday}}</h4>
+            <h4>Where: {{ event.location }}</h4>
+            <h4>Time: {{  event.time }}</h4>
+            <h1></h1>
+            <h4>Start: {{ event.start_date}}</h4>
+            <h4>End: {{ event.end_date}}</h4>
+            {% if event.registrable() %}            
+            <h3><a href="{{ url_for('register_event', event=event.id) }}">Click here to register!</a></h3>
+            {% endif %}
+    </div>
 </div>
+{% endfor %}
+{% endif %}
+</div>
+
 {% endblock %}

@@ -1,22 +1,24 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>{{ event.title }}</h1>
-    <h1>{{ event.start_date }}</h1>
-    <h1>{{ event.end_date }}</h1>
-    {% for image in images %}
-    <img src="/static/files/{{ image.path }}">
-    {% endfor %}
-    <h1>{{ event.body }}</h1>
-    {% for file in files %}
-    <a href="/static/files/{{ file.path }}" download>
-        <figure>
-        <img border="0" src="/static/files/attachment_logo.jpg" alt="logo" width="50" height="50">
-        <figcaption>{{ file.path }}</figcaption>
-        </figure>
-    </a>
-    {% endfor %}
-    {% if registrable %}
-    <td><a href="{{ url_for('register_event', event=event.id) }}">Click here to register!</a></td>
-    {% endif %}
+<div class="row">
+    <div class="col-md-3">
+        <img src="/static/img/{{ image.path }}">
+    </div>
+    <div class="col-md-9">
+        <h1>CLASS: {{ event.title }}</h1>
+        <h3>DESCRIPTION: {{ event.body }}</h3>
+        <h1>DATES </h1>
+        <h3>Registration date: {{ event.registration }}</h3>
+        <h3>State date: {{ event.start_date }}</h3>
+        <h3>End date: {{ event.end_date }}</h3>
+        <h1>SCHEDULE </h1>
+        <h3>When: {{ event.weekday }}</h3>
+        <h3>Time(s): {{ event.time }}</h3>
+        <h3>Where: {{ event.location }}</h3>
+        {% if registrable %}
+        <h1><a href="{{ url_for('register_event', event=event.id) }}">Click here to register!</a></h1>
+        {% endif %}    
+    </div>
+</div>
 {% endblock %}

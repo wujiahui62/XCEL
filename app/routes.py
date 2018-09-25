@@ -210,26 +210,19 @@ def my_leagues():
     return render_template('my_leagues.html', array=array)
 
 @app.route('/youth_activities')
-def events():
-    upcoming = Event().get_upcoming_events()
-    passed = Event().get_passed_events()
-    return render_template('events.html', title='events', upcoming=upcoming, passed=passed)
-
-@app.route('/youth_registrations')
-def event_registration():
-    upcoming = Event().get_upcoming_events()
-    length = len(upcoming)
-    return render_template('upcoming_events.html', title='upcoming activities', upcoming=upcoming, length=length)
+def youth_activity():
+    events = Event().get_events()
+    length = len(events)
+    return render_template('events.html', title='youth activities', events=events, length=length)
 
 @app.route('/youth_activities/<event>')
 def event(event):
     event = Event.query.filter_by(id=int(event)).first()
     registrable = event.registrable()
-    images = event.related_images()
-    files = event.related_files()
-    return render_template('event_detail.html', title='event_detail', event=event, registrable=registrable, images=images, files=files)
+    image = event.related_images().first()
+    return render_template('event_detail.html', title='event_detail', event=event, registrable=registrable, image=image)
 
-@app.route('/youth_registration/<event>', methods=['GET', 'POST'])
+@app.route('/youth_registrations/<event>', methods=['GET', 'POST'])
 @login_required
 def register_event(event):
     form = EventRegistrationForm()
@@ -245,7 +238,6 @@ def register_event(event):
         elif event.registrable():
             member.register(event)
             event.participants = event.participants + 1
-            print(event.participants)
             db.session.commit()
             send_confirmation_email(current_user, member, event)
             flash('The member has successfully registered the event!')
@@ -253,7 +245,6 @@ def register_event(event):
         else:
             flash('There registration is up to limit, contact us for further info!')
             return redirect(url_for('index'))
-            
     return render_template('event_register.html', form=form)
 
 @app.route('/rest_password_request', methods=['GET', 'POST'])
@@ -286,9 +277,8 @@ def reset_password(token):
 
 @app.route('/leagues')
 def leagues():
-    upcoming = League().get_upcoming_leagues()
-    passed = League().get_passed_leagues()
-    return render_template('leagues.html', title='Leagues', upcoming=upcoming, passed=passed)
+    leagues = League().get_leagues()
+    return render_template('leagues.html', title='Leagues', leagues=leagues)
 
 @app.route('/league_registrations')
 def league_registration():
@@ -304,7 +294,9 @@ def volunteer():
 def league(league):
     league = League.query.filter_by(id=int(league)).first()
     registrable = league.registrable()
-    return render_template('league_detail.html', title='league_detail', league=league, registrable=registrable)
+    image = league.related_images().first()
+    teams = league.get_teams()
+    return render_template('league_detail.html', title='league_detail', league=league, registrable=registrable, image=image, teams=teams)
 
 @app.route('/register_league/<league>', methods=['GET', 'POST'])
 @login_required
