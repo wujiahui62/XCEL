@@ -163,15 +163,15 @@ class Event(db.Model):
         upcoming = Event.query.filter(Event.start_date > now).order_by(Event.start_date)
         return list(upcoming)
 
-    def get_ongoing_events(self):
-        now = datetime.now()
-        ongoing = Event.query.filter(Event.start_date <= now, Event.end_date >= now).order_by(Event.start_date)
-        return list(ongoing)
-
     def get_passed_events(self):
         now = datetime.now()
-        passed = Event.query.filter(Event.end_date < now).order_by(Event.start_date.desc())
-        return list(passed)
+        ongoing = Event.query.filter(Event.start_date <= now).order_by(Event.start_date)
+        return list(ongoing)
+
+    # def get_passed_events(self):
+    #     now = datetime.now()
+    #     passed = Event.query.filter(Event.end_date < now).order_by(Event.start_date)
+    #     return list(passed)
 
     def get_events(self):
         events = Event.query.order_by(Event.start_date.desc())
@@ -318,6 +318,21 @@ class League_Team(db.Model):
     league = db.relationship('League', back_populates='teams')
     team = db.relationship('Team', back_populates='leagues')
 
+class ContactForm(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    subject = db.Column(db.String(200))
+    fname = db.Column(db.String(64))
+    lname = db.Column(db.String(64))
+    email = db.Column(db.String(128))
+    phone = db.Column(db.String(20))
+    address = db.Column(db.String(200))
+    city = db.Column(db.String(50))
+    state = db.Column(db.String(50))
+    zip = db.Column(db.String(10))
+    country = db.Column(db.String(50))
+    other = db.Column(db.String(50))
+    comments = db.Column(db.Text)
+
 
 # delete hoods for models, delete files if models are getting deleted
 @listens_for(File, 'after_delete')
@@ -403,5 +418,6 @@ admin.add_view(MyModelView(Event, db.session))
 admin.add_view(MyModelView(League, db.session))
 admin.add_view(MyModelView(Team, db.session))
 admin.add_view(MyModelView(League_Team, db.session))
+admin.add_view(MyModelView(ContactForm, db.session))
 admin.add_view(FileView(File, db.session))
 admin.add_view(ImageView(Image, db.session))

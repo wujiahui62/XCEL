@@ -6,13 +6,13 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    ADMINS = 'baixiu2014@gmail.com'
+    ADMINS = 'thexcelfuture@gmail.com'
     ADMIN_ACCOUNT = 'wujiahui1987@gmail.com'
     EVENTS_PER_PAGE = 3
     MAIL_SERVER='smtp.googlemail.com'
     MAIL_PORT=587
     MAIL_USE_TLS=True
-    MAIL_USERNAME='libaixiu2014@gmail.com'
-    MAIL_PASSWORD='cloud_app'
+    MAIL_USERNAME='thexcelfuture@gmail.com'
+    MAIL_PASSWORD='PET-mD8-NsL-MdL'
 
    

@@ -1,10 +1,10 @@
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditUserForm, EventRegistrationForm, ResetPasswordRequestForm, ResetPasswordForm, LeagueRegistrationForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, EditUserForm, EventRegistrationForm, ResetPasswordRequestForm, ResetPasswordForm, LeagueRegistrationForm, ContactUsForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Member, Event, Image, File, League, Team, League_Team
+from app.models import User, Member, Event, Image, File, League, Team, League_Team, ContactForm
 from werkzeug.urls import url_parse
-from app.email import send_password_reset_email, send_confirmation_email, send_account_registration_email
+from app.email import send_password_reset_email, send_confirmation_email, send_account_registration_email, send_contact_us_email
 
 first_name = None
 last_name = None
@@ -213,13 +213,13 @@ def my_leagues():
 def events():
     upcoming = Event().get_upcoming_events()
     passed = Event().get_passed_events()
-    ongoing = Event().get_ongoing_events()
-    return render_template('events.html', title='events', upcoming=upcoming, passed=passed, ongoing=ongoing)
+    return render_template('events.html', title='events', upcoming=upcoming, passed=passed)
 
 @app.route('/youth_registrations')
 def event_registration():
     upcoming = Event().get_upcoming_events()
-    return render_template('upcoming_events.html', title='upcoming activities', upcoming=upcoming)
+    length = len(upcoming)
+    return render_template('upcoming_events.html', title='upcoming activities', upcoming=upcoming, length=length)
 
 @app.route('/youth_activities/<event>')
 def event(event):
@@ -230,6 +230,7 @@ def event(event):
     return render_template('event_detail.html', title='event_detail', event=event, registrable=registrable, images=images, files=files)
 
 @app.route('/youth_registration/<event>', methods=['GET', 'POST'])
+@login_required
 def register_event(event):
     form = EventRegistrationForm()
     members = current_user.get_members()
@@ -286,9 +287,14 @@ def reset_password(token):
 @app.route('/leagues')
 def leagues():
     upcoming = League().get_upcoming_leagues()
-    current = League().get_current_leagues()
     passed = League().get_passed_leagues()
-    return render_template('leagues.html', title='Leagues', upcoming=upcoming, passed=passed, current=current)
+    return render_template('leagues.html', title='Leagues', upcoming=upcoming, passed=passed)
+
+@app.route('/league_registrations')
+def league_registration():
+    upcoming = League().get_upcoming_leagues()
+    length = len(upcoming)
+    return render_template('upcoming_leagues.html', title='upcoming activities', upcoming=upcoming, length=length)
 
 @app.route('/volunteer')
 def volunteer():
@@ -301,6 +307,7 @@ def league(league):
     return render_template('league_detail.html', title='league_detail', league=league, registrable=registrable)
 
 @app.route('/register_league/<league>', methods=['GET', 'POST'])
+@login_required
 def register_league(league):
     form = LeagueRegistrationForm()
     league = League.query.filter_by(id=int(league)).first()
@@ -337,3 +344,27 @@ def register_league(league):
             flash('There registration is up to limit, contact us for further info!')
             return redirect(url_for('index'))
     return render_template('league_register.html', form=form)
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    form = ContactUsForm()
+    if form.validate_on_submit():
+        contact = ContactForm()
+        contact.subject = form.subject.data
+        contact.firstName = form.firstName.data
+        contact.lastName = form.lastName.data
+        contact.email = form.email.data
+        contact.phone = form.phone.data
+        contact.address = form.address.data
+        contact.city = form.city.data
+        contact.state = form.state.data
+        contact.zip = form.zip.data
+        contact.country = form.country.data
+        contact.other = form.other.data
+        contact.comments = form.comments.data
+        db.session.add(contact)
+        db.session.commit()
+        send_contact_us_email(contact)
+        flash('Your info is sent!')
+        return redirect(url_for('index'))
+    return render_template('contact.html', form=form)

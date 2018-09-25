@@ -62,3 +62,18 @@ class ResetPasswordForm(FlaskForm):
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Request Password Reset')
+
+class ContactUsForm(FlaskForm):
+    subject = StringField('Subject', validators=[DataRequired()])
+    firstName = StringField('First Name', validators=[DataRequired()])
+    lastName = StringField('Last Name', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    phone = StringField('Phone')
+    address = StringField('Address')
+    city = StringField('City')
+    state = StringField('State')
+    zip = StringField('Zip')
+    country = SelectField('Country', choices=[('US', 'The United States'), ('CN', 'China'), ('Other', 'Other')], default='US', validators=[DataRequired()])
+    other = StringField('Other')
+    comments = TextAreaField('Comments', validators=[DataRequired()])
+    submit = SubmitField('Submit')

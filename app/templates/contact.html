@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="/static/css/form.css">
+{% endblock %}
+
+{% block title %}
+    {{ 'Contact Xcel Future' }}
+{% endblock %}
+
+
+{% block app_content %}
+<div class="row">
+    <div class="col-sm-4">
+        <h1></h1>
+        <h1></h1>
+        <h1></h1>
+        <h1></h1>
+
+        {{ 'The Xcel Future provides youth programs including sports, arts and encourages healthy lifestyles and foster connections in our communities through adult fitness.' }}        
+    </div>
+    <div class="col-sm-8">
+        <h1>Contact Us</h1>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                    {{ form.subject.label }} <span style="color:#778899; font-style:italic">Required</span><br>
+                    {{ form.subject() }}<br>
+                    {% for error in form.subject.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>    
+            <div class="row">
+            <div class="col-sm-6">
+            <p>
+                    {{ form.firstName.label }} <span style="color:#778899; font-style:italic">Required</span><br>
+                    {{ form.firstName() }}<br>
+                    {% for error in form.firstName.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-sm-6">
+            <p>
+                    {{ form.lastName.label }} <span style="color:#778899; font-style:italic">Required</span><br>
+                    {{ form.lastName() }}<br>
+                    {% for error in form.lastName.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-6">
+            <p>
+                    {{ form.email.label }} <span style="color:#778899; font-style:italic">Required</span><br>
+                    {{ form.email() }}<br>
+                    {% for error in form.email.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="col-sm-6">
+            <p>
+                    {{ form.phone.label }}<br>
+                    {{ form.phone() }}<br>
+                    {% for error in form.phone.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </p>
+            </div>
+            </div>
+            <p>
+                {{ form.address.label }}<br>
+                {{ form.address() }}<br>
+                {% for error in form.address.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <div class="row">
+            <div class="col-sm-4">
+            <p>
+                {{ form.city.label }}<br>
+                {{ form.city() }}<br>
+                {% for error in form.city.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            </div>
+            <div class="col-sm-4">
+            <p>
+                {{ form.state.label }}<br>
+                {{ form.state() }}<br>
+                {% for error in form.state.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            </div>  
+            <div class="col-sm-4">
+            <p>
+                {{ form.zip.label }}<br>
+                {{ form.zip() }}<br>
+                {% for error in form.zip.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-6">
+            <p>
+                {{ form.country.label }}<br>
+                {{ form.country() }}<br>
+                {% for error in form.country.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            </div>
+            <div class="col-sm-6">
+            <p>
+                {{ form.other.label }}<br>
+                {{ form.other() }}<br>
+                {% for error in form.other.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            </div>
+            </div>
+            <p>
+                {{ form.comments.label }} <span style="color:#778899; font-style:italic">Required</span><br>
+                {{ form.comments() }}<br>
+                {% for error in form.comments.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit(class_='submit') }}</p>
+        </form>
+    
+    </div>
+</div>
+{% endblock %}

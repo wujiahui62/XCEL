@@ -7,8 +7,6 @@
 <link rel="stylesheet" href="/static/css/navbar.css">
 <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
-
-
 {% endblock %}
 
 {% block title %}
@@ -34,19 +32,19 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ 'Youth Development' }}<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('events') }}">{{ 'Activities' }}</a></li>
-                        <li><a href="#">{{ 'Registration' }}</a></li>
+                        <li><a href="{{ url_for('event_registration') }}">{{ 'Registration' }}</a></li>
                     </ul>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">{{ 'Adult Sports' }}<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ url_for('leagues') }}">{{ 'Leagues' }}</a></li>
-                            <li><a href="#">{{ 'Registration' }}</a></li>
+                            <li><a href="{{ url_for('league_registration') }}">{{ 'Registration' }}</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ url_for('volunteer') }}">{{ 'Volunteer' }}</a></li>
                     <li><a href="#">{{ 'Forum' }}</a></li>
-                    <li><a href="#">{{ 'Contact' }}</a></li>
+                    <li><a href="{{ url_for('contact') }}">{{ 'Contact' }}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
@@ -102,17 +100,17 @@
             <h3><img src="/static/img/logo.png" alt="The Xcel Future" width="154.2" height="69.4"></h3>
 
             <p class="footer-links">
-                <a href="#">Home</a>
+                <a href="{{ url_for('index') }}">Home</a>
                 ·
-                <a href="#">Blog</a>
+                <a href="{{ url_for('events') }}">Youth</a>
                 ·
-                <a href="#">Youth</a>
+                <a href="{{ url_for('leagues') }}">Adult</a>
                 ·
-                <a href="#">Adult</a>
+                <a href="{{ url_for('volunteer') }}">Volunteer</a>
                 ·
-                <a href="#">Events</a>
+                <a href="#">Forum</a>
                 ·
-                <a href="#">Contact</a>
+                <a href="{{ url_for('contact') }}">Contact</a>
             </p>
 
             <p class="footer-company-name">The Xcel Future &copy; 2018</p>
@@ -141,7 +139,7 @@
 
             <p class="footer-company-about">
                 <span>About the company</span>
-                The Xcel Future provide youth programs including sports, arts and encourages healthy lifestyles and foster connections in our communities through adult fitness.            </p>
+                The Xcel Future provides youth programs including sports, arts and encourages healthy lifestyles and foster connections in our communities through adult fitness.            </p>
 
             <div class="footer-icons">
                 <a href="#"><i class="fab fa-weixin"></i></a>

@@ -2,11 +2,6 @@
 
 {% block app_content %}
 <div class="container">
-    {{ 'Current leagues' }}
-    {% for league in current %}
-        {% include '_current_league.html' %}
-    {% endfor %}
-    <hr>
     {% if upcoming %}
     {{ 'Upcoming leagues, check it out to register!' }}
     <br>
@@ -14,7 +9,7 @@
         {% include '_upcoming_league.html' %}
     {% endfor %}
     {% else %}
-    {{ 'There is no upcoming leagues' }}
+    {{ 'There is no leagues available' }}
     {% endif %}
     <hr>
     {{ 'League history' }}

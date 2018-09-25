@@ -41,4 +41,9 @@ def send_account_registration_email(user):
                text_body=render_template('email/account_registration_confirmation.txt', user=user),
                html_body=render_template('email/account_registration_confirmation.html', user=user))
                                     
-                
+def send_contact_us_email(contact):
+    send_email('[Xcek] Thank you for contacting us!',
+               sender=app.config['ADMINS'][0],
+               recipients=[contact.email],
+               text_body=render_template('email/send_contact_us_email.txt', contact=contact),
+               html_body=render_template('email/send_contact_us_email.html', contact=contact))

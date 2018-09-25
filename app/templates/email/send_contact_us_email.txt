@@ -1,0 +1,10 @@
+Thank you for reaching out, we will contact you soon regarding your concerns!
+The informations that you provided are below:
+Subject: {{ contact.subject }}
+Email: {{ contact.email }}
+Phone Number: {{ contact.phone }}
+Address: {{ contact.address }}, {{ contact.city }}, {{ contact.state }}, {{ contact.zip }}, {{ contact.country}}
+Comments: {{ contact.comments }}
+Have fun with Xcel!
+Sincerely,
+The Xcel Team
