@@ -2,7 +2,7 @@
 
 {% block app_content %}
 <div class="container">
-{% if length == 0 %}
+{% if not upcoming %}
 {{ 'No leagues are currently available. Would you like to start one? Create your own league!' }}
 {% else %}
 {% for league in upcoming %}

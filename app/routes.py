@@ -212,8 +212,7 @@ def my_leagues():
 @app.route('/youth_activities')
 def youth_activity():
     events = Event().get_events()
-    length = len(events)
-    return render_template('events.html', title='youth activities', events=events, length=length)
+    return render_template('events.html', title='youth activities', events=events)
 
 @app.route('/youth_activities/<event>')
 def event(event):
@@ -283,8 +282,7 @@ def leagues():
 @app.route('/league_registrations')
 def league_registration():
     upcoming = League().get_upcoming_leagues()
-    length = len(upcoming)
-    return render_template('upcoming_leagues.html', title='upcoming activities', upcoming=upcoming, length=length)
+    return render_template('upcoming_leagues.html', title='upcoming activities', upcoming=upcoming)
 
 @app.route('/volunteer')
 def volunteer():

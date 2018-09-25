@@ -6,9 +6,7 @@
 
 {% block app_content %}
 <div class="container">
-{% if length == 0 %}
-{{ 'No activities are currently available. Would you like to start one? Click Contact and let us know!' }}
-{% else %}
+{% if events %}
 {% for event in events %}
 <div class="row">
     <div class="col-md-3">
@@ -31,6 +29,8 @@
     </div>
 </div>
 {% endfor %}
+{% else %}
+{{ 'No activities are currently available. Would you like to start one? Click Contact and let us know!' }}
 {% endif %}
 </div>
 
