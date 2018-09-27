@@ -21,8 +21,8 @@
             <h4>Where: {{ event.location }}</h4>
             <h4>Time: {{  event.time }}</h4>
             <h1></h1>
-            <h4>Start: {{ event.start_date}}</h4>
-            <h4>End: {{ event.end_date}}</h4>
+            <h4>Start: {{ event.start_date }}</h4>
+            <h4>End: {{ event.end_date }}</h4>
             {% if event.registrable() %}            
             <h3><a href="{{ url_for('register_event', event=event.id) }}">Click here to register!</a></h3>
             {% endif %}
