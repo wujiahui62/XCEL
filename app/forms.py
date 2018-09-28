@@ -26,20 +26,20 @@ class EditUserForm(FlaskForm):
     delete = SubmitField('Delete')
 
 class EditProfileForm(FlaskForm):
-    fname = StringField('fname', validators=[DataRequired()])
-    lname = StringField('lname', validators=[DataRequired()])
-    gender = RadioField('gender', choices=[('M', 'Male'), ('F', 'Female')], validators=[DataRequired()])
-    birthday = DateField('birthday', validators=[DataRequired()])
-    country = SelectField('country', choices=[('US', 'The United States'), ('CN', 'China'), ('Other', 'Other')], default='US', validators=[DataRequired()])
-    other = StringField('other')
-    state = StringField('state')
-    city = StringField('city')
-    address = TextAreaField('address')
-    zip = StringField('zip')
-    cell = StringField('cell')
-    healthNotes = TextAreaField('healthNotes')
-    emergencyContact = StringField('emergencyContact')
-    emergencyPhone = StringField('emergencyPhone')
+    fname = StringField('First Name', validators=[DataRequired()])
+    lname = StringField('Last Name', validators=[DataRequired()])
+    gender = RadioField('Gender', choices=[('M', 'Male'), ('F', 'Female')], validators=[DataRequired()])
+    birthday = DateField('Birthday', validators=[DataRequired()])
+    country = SelectField('Country', choices=[('US', 'The United States'), ('CN', 'China'), ('Other', 'Other')], default='US', validators=[DataRequired()])
+    other = StringField('If other, specify the country')
+    state = StringField('State')
+    city = StringField('City')
+    address = StringField('Address')
+    zip = StringField('Zip')
+    cell = StringField('Phone')
+    emergencyContact = StringField('Emergency Contact')
+    emergencyPhone = StringField('Emergency Phone')
+    healthNotes = TextAreaField('Health Notes')
     submit = SubmitField('Submit')
 
 class EventRegistrationForm(FlaskForm):
@@ -47,10 +47,10 @@ class EventRegistrationForm(FlaskForm):
     register = SubmitField('Register')
 
 class LeagueRegistrationForm(FlaskForm):
-    teams = SelectField('my teams', choices=[])
-    new_team = StringField('create a new team')
+    teams = SelectField('My Teams', choices=[])
+    new_team = StringField('Create a new team')
     register = SubmitField('Register')
-    scheduling_requests = TextAreaField('type your sheduling requests here')
+    scheduling_requests = TextAreaField('Type your sheduling requests here')
 
 
 class ResetPasswordRequestForm(FlaskForm):
@@ -76,4 +76,8 @@ class ContactUsForm(FlaskForm):
     country = SelectField('Country', choices=[('US', 'The United States'), ('CN', 'China'), ('Other', 'Other')], default='US', validators=[DataRequired()])
     other = StringField('Other')
     comments = TextAreaField('Comments', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class TopicForm(FlaskForm):
+    topic = StringField('Start your topic here', validators=[DataRequired()])
     submit = SubmitField('Submit')
