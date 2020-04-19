@@ -14,5 +14,3 @@ class Config(object):
     MAIL_USE_TLS=True
     MAIL_USERNAME='thexcelfuture@gmail.com'
     MAIL_PASSWORD='PET-mD8-NsL-MdL'
-
-   

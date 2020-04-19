@@ -13,12 +13,19 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
       <div class="item active">
+        <a href="https://coronavirus.jhu.edu/us-map">
         <img src="/static/files/{{ slide.path }}" alt="{{ slide.path }}">
+            <div class="carousel-caption">
+            <p text>Covid-19 US Map</p>
+            </div>
+        </a>
       </div>
   
     {% for slide in slides %}
       <div class="item">
+        <a href="https://paypal.me/XcelFuture?locale.x=en_US">
         <img src="/static/files/{{ slide.path }}" alt="{{ slide.path }}">
+        </a>
       </div>
     {% endfor %}
     </div>

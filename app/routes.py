@@ -5,9 +5,12 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Member, Event, Image, File, League, Team, League_Team, ContactForm
 from werkzeug.urls import url_parse
 from app.email import send_password_reset_email, send_confirmation_email, send_account_registration_email, send_contact_us_email
+import logging
 
 first_name = None
 last_name = None
+
+logger = logging.getLogger(__name__)
 
 @app.route('/')
 @app.route('/index')
@@ -24,6 +27,7 @@ def index():
     if len(events) >= 3:
         events = events[:3]
     activities = []
+    logger.debug(f"slides={slides}, leagues={leagues}, events={events}")
     return render_template("index.html", title="Home page", slide=slides[0], slides=slides[1:], len=len(slides),
     leagues=leagues, events=events, activities=activities)
 
