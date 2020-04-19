@@ -2,4 +2,4 @@
 XCEL website
 
 admin@test.com
-admin
+admin account
